@@ -124,6 +124,66 @@ func (f *GoRfbClient) Height() int {
 	return int(f.rfbClient.height)
 }
 
+func (f *GoRfbClient) GetPixelFormat() *RfbPixelFormat {
+	format := RfbPixelFormat{
+		format: &f.rfbClient.format,
+	}
+
+	return &format
+}
+
+type RfbPixelFormat struct {
+	format *C.rfbPixelFormat
+}
+
+func (f *RfbPixelFormat) BitsPerPixel() int {
+	return int(f.format.bitsPerPixel)
+}
+
+func (f *RfbPixelFormat) Depth() int {
+	return int(f.format.depth)
+}
+
+func (f *RfbPixelFormat) BigEndian() bool {
+	if f.format.bigEndian == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (f *RfbPixelFormat) TrueColour() bool {
+	if f.format.trueColour == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (f *RfbPixelFormat) RedMax() uint16 {
+	return uint16(f.format.redMax)
+}
+
+func (f *RfbPixelFormat) GreenMax() uint16 {
+	return uint16(f.format.greenMax)
+}
+
+func (f *RfbPixelFormat) BlueMax() uint16 {
+	return uint16(f.format.blueMax)
+}
+
+func (f *RfbPixelFormat) RedShift() uint8 {
+	return uint8(f.format.redShift)
+}
+
+func (f *RfbPixelFormat) BlueShift() uint8 {
+	return uint8(f.format.blueShift)
+}
+
+func (f *RfbPixelFormat) GreenShift() uint8 {
+	return uint8(f.format.greenShift)
+}
+
 func (f *GoRfbClient) SetConfiguration(programName string,
 	compressLevel int, qualityLevel int, encodingsString string) {
 
