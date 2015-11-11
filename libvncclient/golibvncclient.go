@@ -124,6 +124,14 @@ func (f *GoRfbClient) Height() int {
 	return int(f.rfbClient.height)
 }
 
+func (f *GoRfbClient) SendKeyEvent(key uint32, down bool) (ret bool) {
+	_key := C.uint32_t(key)
+	_down := toRfbBool(down)
+	_ret := C.SendKeyEvent(f.rfbClient, _key, _down)
+	ret = toGoBool(_ret)
+	return
+}
+
 func (f *GoRfbClient) GetPixelFormat() *RfbPixelFormat {
 	format := RfbPixelFormat{
 		format: &f.rfbClient.format,
